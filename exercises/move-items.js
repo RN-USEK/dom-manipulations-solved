@@ -49,17 +49,15 @@ const favs = document.getElementById('favs');
 // Your code goes here
 function updateCollections(id, direction) {
   const item = document.getElementById(id);
-  const main = document.getElementById('main');
-  const favs = document.getElementById('favs');
   
   if (direction === 'toMain') {
     main.appendChild(item);
-    item.querySelector('.fas').classList.remove('fa-heart-crack');
-    item.querySelector('.fas').classList.add('fa-heart-circle-plus');
+    item.querySelector('.fa-solid').classList.remove('fa-heart-crack');
+    item.querySelector('.fa-solid').classList.add('fa-heart-circle-plus');
   } else if (direction === 'toFavs') {
     favs.appendChild(item);
-    item.querySelector('.fas').classList.remove('fa-heart-circle-plus');
-    item.querySelector('.fas').classList.add('fa-heart-crack');
+    item.querySelector('.fa-solid').classList.remove('fa-heart-circle-plus');
+    item.querySelector('.fa-solid').classList.add('fa-heart-crack');
   }
 }
 
