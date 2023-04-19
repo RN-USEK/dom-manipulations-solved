@@ -38,3 +38,40 @@
  */
 
 // Your code goes here...
+
+document.addEventListener('DOMContentLoaded', () => {
+    const cardsContainer = document.querySelector('.cardsContainer');
+    const storageKey = 'favoriteCards';
+  
+    const favoriteCards = JSON.parse(localStorage.getItem(storageKey)) || [];
+  
+    for (const card of cardsContainer.querySelectorAll('.card')) {
+      const isFavorite = favoriteCards.includes(card.id);
+      card.dataset.fav = isFavorite;
+      card.style.backgroundColor = isFavorite ? 'red' : 'gray';
+    }
+  
+    cardsContainer.addEventListener('click', (event) => {
+      if (event.target.classList.contains('card')) {
+        const card = event.target;
+        const isFavorite = card.dataset.fav === 'true';
+        
+        card.dataset.fav = !isFavorite;
+        card.style.backgroundColor = !isFavorite ? 'red' : 'gray';
+  
+        if (!isFavorite) {
+          favoriteCards.push(card.id);
+        } else {
+          const index = favoriteCards.indexOf(card.id);
+          if (index !== -1) {
+            favoriteCards.splice(index, 1);
+          }
+        }
+        localStorage.setItem(storageKey, JSON.stringify(favoriteCards));
+      }
+    });
+  });
+  
+  
+  
+
