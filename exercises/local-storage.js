@@ -40,37 +40,53 @@
 // Your code goes here...
 
 document.addEventListener('DOMContentLoaded', () => {
-    const cardsContainer = document.querySelector('.cardsContainer');
-    const storageKey = 'favoriteCards';
-  
+  const cardsContainer = document.querySelector('.cardsContainer');
+  const storageKey = 'favoriteCards';
+
+  setBackgroundColorForFavorites = () => {
     const favoriteCards = JSON.parse(localStorage.getItem(storageKey)) || [];
-  
     for (const card of cardsContainer.querySelectorAll('.card')) {
-      const isFavorite = favoriteCards.includes(card.id);
-      card.dataset.fav = isFavorite;
-      card.style.backgroundColor = isFavorite ? 'red' : 'gray';
+      const isFav = favoriteCards.includes(card.id);
+      card.dataset.fav = isFav;
+      card.style.backgroundColor = isFav ? 'red' : 'gray';
     }
-  
-    cardsContainer.addEventListener('click', (event) => {
-      if (event.target.classList.contains('card')) {
-        const card = event.target;
-        const isFavorite = card.dataset.fav === 'true';
-        
-        card.dataset.fav = !isFavorite;
-        card.style.backgroundColor = !isFavorite ? 'red' : 'gray';
-  
-        if (!isFavorite) {
-          favoriteCards.push(card.id);
-        } else {
-          const index = favoriteCards.indexOf(card.id);
-          if (index !== -1) {
-            favoriteCards.splice(index, 1);
-          }
-        }
-        localStorage.setItem(storageKey, JSON.stringify(favoriteCards));
+  }
+
+  addToFavorites = (id) => {
+    const favoriteCards = JSON.parse(localStorage.getItem(storageKey)) || [];
+    favoriteCards.push(id);
+    localStorage.setItem(storageKey, JSON.stringify(favoriteCards));
+  }
+
+  removeFromFavorites = (id) => {
+    const favoriteCards = JSON.parse(localStorage.getItem(storageKey)) || [];
+    const index = favoriteCards.indexOf(id);
+    if (index !== -1) {
+      favoriteCards.splice(index, 1);
+    }
+    localStorage.setItem(storageKey, JSON.stringify(favoriteCards));
+  }
+
+  handleClick = (event) => {
+    if (event.target.classList.contains('card')) {
+      const card = event.target;
+      const isFav = card.dataset.fav === 'true';
+
+      card.dataset.fav = !isFav;
+      card.style.backgroundColor = !isFav ? 'red' : 'gray';
+
+      if (!isFav) {
+        addToFavorites(card.id);
+      } else {
+        removeFromFavorites(card.id);
       }
-    });
-  });
+    }
+  }
+
+  setBackgroundColorForFavorites();
+  cardsContainer.addEventListener('click', handleClick);
+});
+
   
   
   
